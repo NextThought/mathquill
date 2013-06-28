@@ -70,6 +70,27 @@ jQuery.fn.mathquill = function(cmd, latex) {
           cursor.hide().parent.blur();
         }
       });
+  case 'sendSpecialKey':
+	  if (arguments.length > 1){
+		 var blockId = $(this.first()).attr(mqBlockId),
+		 block = blockId && MathElement[blockId],
+		 cursor = block && block.cursor;
+
+   		 if(cursor){
+			 (cursor.root || cursor).bubble('onKey', latex, {preventDefault: function(){}});
+		 }
+	  }
+	  return;
+  case 'typeString':
+	if (arguments.length > 1){
+		var blockId = $(this.first()).attr(mqBlockId),
+		block = blockId && MathElement[blockId],
+		cursor = block && block.cursor;
+		if(cursor){
+			(cursor.root || cursor).bubble('onText', latex);
+		}
+	}
+	return;
   default:
     var textbox = cmd === 'textbox',
       editable = textbox || cmd === 'editable',
